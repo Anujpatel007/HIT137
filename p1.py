@@ -1,1 +1,2 @@
-# I'm doing the question 4 as well
+from PIL import Image
+img = Image.open('chapter 1.jpg')
