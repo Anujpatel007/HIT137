@@ -26,5 +26,8 @@ with open('all_large_texts.txt', 'w', encoding='utf-8') as output_file:
         
         #Read the CSV file into a DataFrame
         df = pd.read_csv(csv_file)
+        
+        #Find the columns with the largest text
+        large_text_columns = find_large_text_columns_nltk(df)
            
              
