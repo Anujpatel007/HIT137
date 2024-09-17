@@ -5,7 +5,7 @@ def decrypt_caesar(ciphertext, shift):
         if char.isalpha():
             # Shift character back to its original position
             base = ord('A') if char.isupper() else ord('a')
-            new_char_code = (ord(char)) - base - shift) % 26 + base
+            new_char_code = (ord(char) - base - shift) % 26 + base
             decrypted_text += chr(new_char_code)
         else:
             # Keep non-alphabetical characters as they are

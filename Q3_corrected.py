@@ -38,4 +38,5 @@ if 5 not in my_dict:
 
 print(global_variable)
 print(my_dict)
+print(my_set)
 #Print(m1 set) commented as m1 was not defined
