@@ -1,10 +1,20 @@
 from PIL import Image
 
+import time
+
+current_time = int(time.time())
+
+generated_number = (current_time % 100) + 50
+
+if generated_number % 2 == 0:
+    generated_number += 10
+
+print(generated_number)
+
 # Load the image and modify pixels
 image = Image.open('Chapter1.jpg')
 pixels = list(image.getdata())
-
-n=10
+n=generated_number
 upgraded_pixels = [(r + n, g + n, b + n) for r, g, b in pixels]
 # want to creat the same thing with the g and b and compair the output as like (r + n, g + n, b + n) for r
 new_image = Image.new(image.mode, image.size)
