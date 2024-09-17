@@ -35,7 +35,7 @@ with open('all_large_texts.txt', 'w', encoding='utf-8') as output_file:
             column_with_large_text = max(large_text_columns, key=large_text_columns.get)
             print(f"Largest text found in column: {column_with_large_text} in file {csv_file}")
             
-            # Extract and save the large text from the identified column
+            #Extract and save the large text from the identified column
             for text in df[column_with_large_text]:
                 if isinstance(text, str):  # Only process valid strings
                     output_file.write(f"From {csv_file}:\n")  # Mark the file source
