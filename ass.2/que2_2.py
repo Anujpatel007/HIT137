@@ -1,6 +1,6 @@
 def extract_and_convert(input_string):
   
-    # Initialize an empty dictionary to store the results
+    # start a dictionery of all the results
     result = {
         "numbers": "",
         "letters": "",
@@ -10,20 +10,20 @@ def extract_and_convert(input_string):
         "ascii_upper_case_letters": []
     }
 
-    # Separate numbers and letters
+    # Separation of numbers and letters
     for char in input_string:
         if char.isdigit():
             result["numbers"] += char
         elif char.isalpha():
             result["letters"] += char
 
-    # Convert even numbers to ASCII Code Decimal Values
+    # Converting the even numbers to ASCII even numbers
     for num in result["numbers"]:
         if int(num) % 2 == 0:
             result["even_numbers"] += num
             result["ascii_even_numbers"].append(ord(num))
 
-    # Convert upper-case letters to ASCII Code Decimal Values
+    # Convert upper-case letters to ASCII upper-case letters
     for char in result["letters"]:
         if char.isupper():
             result["upper_case_letters"] += char
