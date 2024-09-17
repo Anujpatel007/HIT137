@@ -14,4 +14,8 @@ def find_large_text_columns_nltk(df):
     # Iterate over each column
     for column in df.columns:
         if df[column].dtype == object:
-            
+             avg_length = df[column].apply(lambda x: len(word_tokenize(str(x))) if isinstance(x, str) else 0).mean()
+             text_lengths[column] = avg_length
+             
+    return text_lengths         
+             
