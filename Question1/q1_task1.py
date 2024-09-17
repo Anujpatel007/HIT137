@@ -23,5 +23,8 @@ with open('all_large_texts.txt', 'w', encoding='utf-8') as output_file:
     # Iterate over each CSV file in the list
     for csv_file in csv_files:
         print(f"Processing file: {csv_file}")
+        
+        #Read the CSV file into a DataFrame
+        df = pd.read_csv(csv_file)
            
              
