@@ -18,7 +18,7 @@ n=generated_number
 upgraded_pixels = [(r + n, g + n, b + n) for r, g, b in pixels]
 upgraded_image= Image.new(image.mode, image.size)
 upgraded_image.putdata(upgraded_pixels)
-upgraded_image.save('chapter1out.jpg')
+upgraded_image.save('chapter1out.png')
 
 # Calculate sum of red pixel values
 red_sum = sum([r for r, g, b in upgraded_pixels])
