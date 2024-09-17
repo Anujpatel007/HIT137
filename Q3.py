@@ -13,7 +13,7 @@ def decrypt_caesar(ciphertext, shift):
     return decrypted_text
 
 #Store the encrypted code
-code = """tybonny_inevnoyr = 100"""
+code = """tybonny_inevnoyr = 100
 zl_qvpg = {'xrl1': 'inyhr1', 'xr12': 'inyhr2', 'xrl3': 'inyhr3'}
 
 qrs cebprff_ahzoref():
