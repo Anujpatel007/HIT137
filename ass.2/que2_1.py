@@ -24,6 +24,7 @@ upgraded_image.save('chapter1out.png')
 red_sum = sum([r for r, g, b in upgraded_pixels])
 print(f"Sum of red pixels: {red_sum}")
 
+# additional tasks just to represent the output of rest of the two colour codes.
 # Calculate sum of green pixel values
 green_sum = sum([g for r, g, b in upgraded_pixels])
 print(f"Sum of green pixels: {green_sum}")
