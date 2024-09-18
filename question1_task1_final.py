@@ -19,3 +19,5 @@ def find_large_text_columns_nltk(df):
             text_lengths[column] = avg_length
 
     return text_lengths
+# Open a file to store all the large texts from all CSV files
+with open('large_texts.txt', 'w', encoding='utf-8') as output_file:
