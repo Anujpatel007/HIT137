@@ -28,3 +28,8 @@ with open('large_texts.txt', 'w', encoding='utf-8') as output_file:
         df = pd.read_csv(csv_file)
         # Find the columns with the largest text
         large_text_columns = find_large_text_columns_nltk(df)
+        # Identify the column with the highest average word count
+        if large_text_columns:
+            column_with_large_text = max(large_text_columns, key=large_text_columns.get)
+            print(f"Largest text found in column: {column_with_large_text} in file {csv_file}")
+
