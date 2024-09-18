@@ -21,3 +21,6 @@ def find_large_text_columns_nltk(df):
     return text_lengths
 # Open a file to store all the large texts from all CSV files
 with open('large_texts.txt', 'w', encoding='utf-8') as output_file:
+    # Iterate over each CSV file in the list
+    for csv_file in csv_files:
+        print(f"Processing file: {csv_file}")
