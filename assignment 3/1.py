@@ -89,3 +89,7 @@ class ImageModel:
     @log_time  # Decorator added here
     def classify_image(self, image_path):
         ...
+
+if __name__ == "__main__":
+    app = ImageClassifierApp()
+    app.mainloop()
