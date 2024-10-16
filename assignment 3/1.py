@@ -62,3 +62,10 @@ class ImageModel:
         predictions = self.model.predict(img_array)
         decoded_predictions = tf.keras.applications.mobilenet_v2.decode_predictions(predictions, top=1)[0]
         return decoded_predictions[0][1]  # Return the predicted label
+    
+    # Step 4: Multiple inheritance in the main class
+class ImageClassifierApp(tk.Tk, ImageModel):
+    def __init__(self):
+        # Initialize both Tkinter and the ImageModel class
+        tk.Tk.__init__(self)
+        ImageModel.__init__(self)
