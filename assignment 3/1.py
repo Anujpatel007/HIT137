@@ -37,35 +37,55 @@
 #             self.result_label.config(text=f"Prediction: {prediction}")
 
 
-import tensorflow as tf
+# import tensorflow as tf
 
-# Step 3: Define the model class
-class ImageModel:
-    def __init__(self):
-        self.model = self.load_model()
+# # Step 3: Define the model class
+# class ImageModel:
+#     def __init__(self):
+#         self.model = self.load_model()
 
-    # Encapsulation: method to load the AI model
-    def load_model(self):
-        # Load pre-trained MobileNet model for image classification
-        model = tf.keras.applications.mobilenet_v2.MobileNetV2(weights='imagenet')
-        return model
+#     # Encapsulation: method to load the AI model
+#     def load_model(self):
+#         # Load pre-trained MobileNet model for image classification
+#         model = tf.keras.applications.mobilenet_v2.MobileNetV2(weights='imagenet')
+#         return model
 
-    # Polymorphism: A generic method to classify any image file
-    def classify_image(self, image_path):
-        img = Image.open(image_path)
-        img = img.resize((224, 224))  # Resizing image for the model
-        img_array = tf.keras.preprocessing.image.img_to_array(img)
-        img_array = tf.expand_dims(img_array, axis=0)
-        img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
+#     # Polymorphism: A generic method to classify any image file
+#     def classify_image(self, image_path):
+#         img = Image.open(image_path)
+#         img = img.resize((224, 224))  # Resizing image for the model
+#         img_array = tf.keras.preprocessing.image.img_to_array(img)
+#         img_array = tf.expand_dims(img_array, axis=0)
+#         img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
 
-        # Predict using the model
-        predictions = self.model.predict(img_array)
-        decoded_predictions = tf.keras.applications.mobilenet_v2.decode_predictions(predictions, top=1)[0]
-        return decoded_predictions[0][1]  # Return the predicted label
+#         # Predict using the model
+#         predictions = self.model.predict(img_array)
+#         decoded_predictions = tf.keras.applications.mobilenet_v2.decode_predictions(predictions, top=1)[0]
+#         return decoded_predictions[0][1]  # Return the predicted label
     
-    # Step 4: Multiple inheritance in the main class
-class ImageClassifierApp(tk.Tk, ImageModel):
-    def __init__(self):
-        # Initialize both Tkinter and the ImageModel class
-        tk.Tk.__init__(self)
-        ImageModel.__init__(self)
+#     # Step 4: Multiple inheritance in the main class
+# class ImageClassifierApp(tk.Tk, ImageModel):
+#     def __init__(self):
+#         # Initialize both Tkinter and the ImageModel class
+#         tk.Tk.__init__(self)
+#         ImageModel.__init__(self)
+
+import time
+
+# Step 5: Define a decorator to time the classification process
+def log_time(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f"Function {func.__name__} took {end_time - start_time} seconds")
+        return result
+    return wrapper
+
+# Modify the classify_image method to include the decorator
+class ImageModel:
+    ...
+    
+    @log_time  # Decorator added here
+    def classify_image(self, image_path):
+        ...
