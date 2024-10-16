@@ -38,15 +38,23 @@
 
 
 import tensorflow as tf
-# Encapsulation: method to load the AI model
+
+# Step 3: Define the model class
+class ImageModel:
+    def __init__(self):
+        self.model = self.load_model()
+
+    # Encapsulation: method to load the AI model
     def load_model(self):
         # Load pre-trained MobileNet model for image classification
         model = tf.keras.applications.mobilenet_v2.MobileNetV2(weights='imagenet')
         return model
- # Polymorphism: A generic method to classify any image file
+
+    # Polymorphism: A generic method to classify any image file
     def classify_image(self, image_path):
         img = Image.open(image_path)
         img = img.resize((224, 224))  # Resizing image for the model
         img_array = tf.keras.preprocessing.image.img_to_array(img)
         img_array = tf.expand_dims(img_array, axis=0)
         img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
+
