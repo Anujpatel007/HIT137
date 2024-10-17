@@ -127,3 +127,12 @@ class Enemy(pygame.sprite.Sprite):
             Player.score += ENEMY_POINTS
             self.kill()
             
+# Define the BossEnemy class
+class BossEnemy(Enemy):
+    def __init__(self):
+        super(BossEnemy, self).__init__()
+        self.surf = boss_image
+        self.rect = self.surf.get_rect(midbottom=(SCREEN_WIDTH + 100, SCREEN_HEIGHT - 100))
+        self.speed = 3
+        self.health = 200
+            
