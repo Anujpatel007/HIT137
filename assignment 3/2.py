@@ -42,3 +42,15 @@ bullet_image = pygame.transform.scale(bullet_image, (20, 20))
 health_boost_image = pygame.transform.scale(health_boost_image, (50, 50))
 extra_life_image = pygame.transform.scale(extra_life_image, (70, 70))
 boss_image = pygame.transform.scale(boss_image, (120, 120))
+
+# Define the Player class
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Player, self).__init__()
+        self.surf = player_image
+        self.rect = self.surf.get_rect(midbottom=(100, SCREEN_HEIGHT - 100))
+        self.health = 100
+        self.lives = PLAYER_LIVES
+        self.vel_y = 0
+        self.on_ground = True
+        self.score = 0
