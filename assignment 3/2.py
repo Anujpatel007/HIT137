@@ -33,3 +33,12 @@ bullet_image = pygame.image.load("bullet.png").convert_alpha()
 health_boost_image = pygame.image.load("health_boost.png").convert_alpha()
 extra_life_image = pygame.image.load("extra_life.png").convert_alpha()
 boss_image = pygame.image.load("boss.png").convert_alpha()
+
+# Resize images
+background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+player_image = pygame.transform.scale(player_image, (100, 150))
+enemy_image = pygame.transform.scale(enemy_image, (100, 100))
+bullet_image = pygame.transform.scale(bullet_image, (20, 20))
+health_boost_image = pygame.transform.scale(health_boost_image, (50, 50))
+extra_life_image = pygame.transform.scale(extra_life_image, (70, 70))
+boss_image = pygame.transform.scale(boss_image, (120, 120))
