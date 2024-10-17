@@ -106,3 +106,23 @@ class Projectile(pygame.sprite.Sprite):
         self.rect.move_ip(10, 0)
         if self.rect.left > SCREEN_WIDTH:
             self.kill()
+            
+# Define the Enemy class
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Enemy, self).__init__()
+        self.surf = enemy_image
+        self.rect = self.surf.get_rect(center=(random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100), SCREEN_HEIGHT - 50))
+        self.speed = random.randint(1, 5)
+        self.health = 30
+
+    def update(self):
+        self.rect.move_ip(-self.speed, 0)
+        if self.rect.right < 0:
+            self.kill()
+
+    def take_damage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            player.score += ENEMY_POINTS
+            self.kill()
