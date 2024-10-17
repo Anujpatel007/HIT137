@@ -76,3 +76,12 @@ class Player(pygame.sprite.Sprite):
             self.rect.left = 0
         if self.rect.right > SCREEN_WIDTH:
             self.rect.right = SCREEN_WIDTH
+            
+    def take_damage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            self.lives -= 1
+            if self.lives > 0:
+                self.health = 100
+            else:
+                self.kill()
