@@ -21,3 +21,6 @@ COLLECTIBLE_POINTS = 5
 # Set up the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("2D Game with Levels, Enemies, and Collectibles")
+
+# Setup the clock
+clock = pygame.time.Clock()
