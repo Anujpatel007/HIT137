@@ -85,3 +85,11 @@ class Player(pygame.sprite.Sprite):
                 self.health = 100
             else:
                 self.kill()
+                
+    def collect(self, collectible):
+        if collectible.boost_type == "health":
+            self.health = min(100, self.health + 20)
+        elif collectible.boost_type == "life":
+            self.lives += 1
+        self.score += COLLECTIBLE_POINTS
+        collectible.kill()
