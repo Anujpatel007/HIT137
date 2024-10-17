@@ -124,5 +124,6 @@ class Enemy(pygame.sprite.Sprite):
     def take_damage(self, damage):
         self.health -= damage
         if self.health <= 0:
-            player.score += ENEMY_POINTS
+            Player.score += ENEMY_POINTS
             self.kill()
+            
