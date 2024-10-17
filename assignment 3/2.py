@@ -9,3 +9,11 @@ pygame.init()
 # Screen dimensions
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+
+# Constants for game mechanics
+GRAVITY = 0.5
+PLAYER_JUMP_STRENGTH = -12
+PLAYER_SPEED = 5
+PLAYER_LIVES = 3
+ENEMY_POINTS = 10
+COLLECTIBLE_POINTS = 5
