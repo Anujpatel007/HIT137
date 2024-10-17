@@ -63,3 +63,16 @@ class Player(pygame.sprite.Sprite):
         if pressed_keys[K_j] and self.on_ground:   #To make the Kangaroo Jump
             self.vel_y = PLAYER_JUMP_STRENGTH
             self.on_ground = False
+            
+        self.vel_y += GRAVITY
+        self.rect.y += self.vel_y
+
+        if self.rect.bottom >= SCREEN_HEIGHT:
+            self.rect.bottom = SCREEN_HEIGHT
+            self.vel_y = 0
+            self.on_ground = True
+
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > SCREEN_WIDTH:
+            self.rect.right = SCREEN_WIDTH
