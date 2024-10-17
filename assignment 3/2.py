@@ -24,3 +24,12 @@ pygame.display.set_caption("2D Game with Levels, Enemies, and Collectibles")
 
 # Setup the clock
 clock = pygame.time.Clock()
+
+# Load images
+background_image = pygame.image.load("background.png").convert()
+player_image = pygame.image.load("player.png").convert_alpha()
+enemy_image = pygame.image.load("enemy.png").convert_alpha()
+bullet_image = pygame.image.load("bullet.png").convert_alpha()
+health_boost_image = pygame.image.load("health_boost.png").convert_alpha()
+extra_life_image = pygame.image.load("extra_life.png").convert_alpha()
+boss_image = pygame.image.load("boss.png").convert_alpha()
