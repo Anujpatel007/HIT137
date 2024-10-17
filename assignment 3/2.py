@@ -54,3 +54,12 @@ class Player(pygame.sprite.Sprite):
         self.vel_y = 0
         self.on_ground = True
         self.score = 0
+        
+    def update(self, pressed_keys):
+        if pressed_keys[K_LEFT]:
+            self.rect.move_ip(-PLAYER_SPEED, 0)
+        if pressed_keys[K_RIGHT]:
+            self.rect.move_ip(PLAYER_SPEED, 0)
+        if pressed_keys[K_j] and self.on_ground:   #To make the Kangaroo Jump
+            self.vel_y = PLAYER_JUMP_STRENGTH
+            self.on_ground = False
