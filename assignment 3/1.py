@@ -1,90 +1,95 @@
-import tkinter as tk
-from tkinter import filedialog, Label
-from PIL import Image, ImageTk
-import tensorflow as tf
-import time
+# Import necessary modules
+import tkinter as tk  # tkinter for creating the GUI
+from tkinter import filedialog, Label  # For file dialogs and labels in the GUI
+from PIL import Image, ImageTk  # Image, ImageTK from PIL For image processing and display
+import tensorflow as tf # Import TensorFlow for AI model processing
+import time # Import time module for timing function execution
 
-# Step 1: Define a decorator to log the time taken for classification
-def log_time(func):
-    def wrapper(*args, **kwargs):
-        start_time = time.time()
-        result = func(*args, **kwargs)
-        end_time = time.time()
-        print(f"Function {func.__name__} took {end_time - start_time:.2f} seconds")
-        return result
-    return wrapper
 
-# Step 2: Define the AI model class (for Image Classification)
+# Step 1: Create the main application class
+class ImageClassifierApp(tk.Tk):
+    def __init__(self):
+        super().__init__()  # Initialize the Tkinter parent class
+        self.title("Image Classifier App")  # Set window title
+        self.geometry("600x400")  # Set window size
+        
+        # Step 2: Add UI components
+        self.label = Label(self, text="Upload an image to classify", font=("Arial", 16))  # Labeling for instructions that what should we need to do
+        self.label.pack(pady=20)  # Add padding and display label 
+        
+        self.upload_button = tk.Button(self, text="Upload Image", command=self.upload_image)  # it's a Button to upload an image
+        self.upload_button.pack(pady=10)  # Add padding and display button
+        
+        self.result_label = Label(self, text="", font=("Arial", 12))  # it is a Label which is used for displaying the classification result
+        self.result_label.pack(pady=20)  # Add padding and display result label
+        
+        self.image_label = Label(self)  # Label to display to uploaded the image
+        self.image_label.pack(pady=10)  # Add padding and display image label
+
+    # Encapsulation: it's a method to handle image file selection and display the image
+    def upload_image(self):
+        file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg *.png")])  # Open file dialog for image selection
+        if file_path:  # If a file is selected
+            img = Image.open(file_path)  # Open the selected image
+            img = img.resize((250, 250))  # Resize the image for display
+            img = ImageTk.PhotoImage(img)  # Converting image for Tkinter display
+            self.image_label.config(image=img)  # Display the image in the GUI
+            self.image_label.image = img  # Keep a reference to avoid garbage collection
+            
+            # Call AI model for classification (defined later)
+            prediction = self.classify_image(file_path)  # Classify the image
+            self.result_label.config(text=f"Prediction: {prediction}")  # Display the classification result
+
+# Step 3: Define the model class for image classification
 class ImageModel:
     def __init__(self):
-        self.model = self.load_model()
+        self.model = self.load_model()  # Load the AI model when class is initialized
 
-    # Encapsulation: method to load the AI model
+    # Encapsulation: method to load the pre-trained AI model
     def load_model(self):
-        # Load pre-trained MobileNet model for image classification
-        print("Loading MobileNetV2 model...")
+        # Load the pre-trained MobileNetV2 model for image classification with ImageNet weights
         model = tf.keras.applications.mobilenet_v2.MobileNetV2(weights='imagenet')
-        print("Model loaded successfully.")
-        return model
+        return model  # Return the loaded model
 
-    # Polymorphism: Method to classify any image file
-    @log_time  # Decorator to log time
+    # Polymorphism: Generic method to classify an image file
     def classify_image(self, image_path):
-        # Load and preprocess the image
-        img = Image.open(image_path)
-        img = img.resize((224, 224))  # Resizing image for the model
-        img_array = tf.keras.preprocessing.image.img_to_array(img)
-        img_array = tf.expand_dims(img_array, axis=0)  # Add batch dimension
-        img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
+        img = Image.open(image_path)  # the pathway to Open the image
+        img = img.resize((224, 224))  # Resize the image to 224x224 (which is required by the model)
+        img_array = tf.keras.preprocessing.image.img_to_array(img)  # Converting the image to array
+        img_array = tf.expand_dims(img_array, axis=0)  # Add a batch dimension (which is also required by the model)
+        img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)  # and now Preprocessing the image array
 
-        # Predict using the model
-        predictions = self.model.predict(img_array)
-        decoded_predictions = tf.keras.applications.mobilenet_v2.decode_predictions(predictions, top=1)[0]
-        return decoded_predictions[0][1]  # Return the predicted label
+        # Predict using the pre-trained model
+        predictions = self.model.predict(img_array)  # Get the model's predictions
+        decoded_predictions = tf.keras.applications.mobilenet_v2.decode_predictions(predictions, top=1)[0]  # Decode predictions
+        return decoded_predictions[0][1]  # Return the predicted label (class name)
 
-# Step 3: Define the main Tkinter application class
+# Step 4: Multiple inheritance in the main class
 class ImageClassifierApp(tk.Tk, ImageModel):
     def __init__(self):
-        # Initialize both Tkinter and the ImageModel class
+        # Initialize both Tkinter (for GUI) and ImageModel (for AI)
         tk.Tk.__init__(self)
         ImageModel.__init__(self)
 
-        self.title("Image Classifier App")
-        self.geometry("600x500")
+# Step 5: Define a decorator to time the classification process
+def log_time(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()  # Record the start time
+        result = func(*args, **kwargs)  # Call the function being timed
+        end_time = time.time()  # Record the end time
+        print(f"Function {func.__name__} took {end_time - start_time} seconds")  # Print the time taken
+        return result  # Return the function's result
+    return wrapper  # Return the wrapper function
 
-        # Step 4: Add UI components
-        self.label = Label(self, text="Upload an image to classify", font=("Arial", 16))
-        self.label.pack(pady=20)
+# Modify the classify_image method to include the decorator
+class ImageModel:
+    ...
+    
+    @log_time  # Decorator added to time the execution of the classify_image method
+    def classify_image(self, image_path):
+        ...
 
-        self.upload_button = tk.Button(self, text="Upload Image", command=self.upload_image)
-        self.upload_button.pack(pady=10)
-
-        self.result_label = Label(self, text="", font=("Arial", 12))
-        self.result_label.pack(pady=20)
-
-        self.image_label = Label(self)
-        self.image_label.pack(pady=10)
-
-    # Encapsulation: upload_image method to handle file selection and display
-    def upload_image(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg *.png")])
-        if file_path:
-            img = Image.open(file_path)
-            img = img.resize((250, 250))  # Resize image for display
-            img = ImageTk.PhotoImage(img)
-            self.image_label.config(image=img)
-            self.image_label.image = img  # Keep reference to avoid garbage collection
-
-            # Call AI model for classification
-            prediction = self.classify_image(file_path)
-            self.result_label.config(text=f"Prediction: {prediction}")
-
-    # Method overriding: Custom quit method to print a message before exiting
-    def quit(self):
-        print("Exiting the application...")
-        super().quit()  # Call the original Tkinter quit method
-
-# Step 5: Run the application
+# Main application loop
 if __name__ == "__main__":
-    app = ImageClassifierApp()
-    app.mainloop()
+    app = ImageClassifierApp()  # Instantiate the app
+    app.mainloop()  # Start the Tkinter event loop to keep the app running
