@@ -93,3 +93,16 @@ class Player(pygame.sprite.Sprite):
             self.lives += 1
         self.score += COLLECTIBLE_POINTS
         collectible.kill()
+        
+# Define the Projectile class
+class Projectile(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super(Projectile, self).__init__()
+        self.surf = bullet_image
+        self.rect = self.surf.get_rect(center=(x, y))
+        self.damage = 10
+
+    def update(self):
+        self.rect.move_ip(10, 0)
+        if self.rect.left > SCREEN_WIDTH:
+            self.kill()
