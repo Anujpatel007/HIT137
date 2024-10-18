@@ -136,3 +136,14 @@ class BossEnemy(Enemy):
         self.speed = 3
         self.health = 200
             
+# Define the Collectible class
+class Collectible(pygame.sprite.Sprite):
+    def __init__(self, x, y, boost_type="health"):
+        super(Collectible, self).__init__()
+        if boost_type == "health":
+            self.surf = health_boost_image
+        elif boost_type == "life":
+            self.surf = extra_life_image
+        self.rect = self.surf.get_rect(center=(x, y))
+        self.boost_type = boost_type
+        
