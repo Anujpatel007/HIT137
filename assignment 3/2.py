@@ -136,3 +136,119 @@ class BossEnemy(Enemy):
         self.speed = 3
         self.health = 200
             
+# Define the Collectible class
+class Collectible(pygame.sprite.Sprite):
+    def __init__(self, x, y, boost_type="health"):
+        super(Collectible, self).__init__()
+        if boost_type == "health":
+            self.surf = health_boost_image
+        elif boost_type == "life":
+            self.surf = extra_life_image
+        self.rect = self.surf.get_rect(center=(x, y))
+        self.boost_type = boost_type
+
+# Create player instance
+player = Player()
+
+# Create sprite groups
+all_sprites = pygame.sprite.Group()
+all_sprites.add(player)
+
+enemies = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+collectibles = pygame.sprite.Group()
+
+# Levels and Game Control
+level = 1
+total_levels = 3
+game_over = False
+
+# Function to draw the health and score UI
+def draw_ui(player, screen):
+    font = pygame.font.Font(None, 36)
+    lives_text = font.render(f'Lives: {player.lives}', True, (255, 255, 255))
+    score_text = font.render(f'Score: {player.score}', True, (255, 255, 255))
+    screen.blit(lives_text, (10, 10))
+    screen.blit(score_text, (10, 40))
+
+    # Health bar
+    bar_width = 200
+    fill = (player.health / 100) * bar_width
+    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(10, 70, fill, 20))
+    pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(10, 70, bar_width, 20), 2)
+
+# Function to handle game over and restart
+def display_game_over(screen):
+    font = pygame.font.Font(None, 74)
+    text = font.render("Game Over", True, (255, 0, 0))
+    screen.blit(text, (SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT // 2 - 50))
+    pygame.display.flip()
+    pygame.time.wait(3000)
+
+# Main game loop
+running = True
+while running:
+    # Event handling
+    for event in pygame.event.get():
+        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+            running = False
+        if event.type == KEYDOWN and event.key == K_SPACE and not game_over:
+            bullet = Projectile(player.rect.right, player.rect.centery)
+            bullets.add(bullet)
+            all_sprites.add(bullet)
+
+    # Update objects
+    pressed_keys = pygame.key.get_pressed()
+    player.update(pressed_keys)
+    enemies.update()
+    bullets.update()
+    collectibles.update()
+
+    # Add enemies and collectibles based on level
+    if level <= total_levels and random.random() < 0.01 * level:
+        new_enemy = Enemy()
+        enemies.add(new_enemy)
+        all_sprites.add(new_enemy)
+
+    if level <= total_levels and random.random() < 0.005:
+        collectible_type = random.choice(["health", "life"])
+        new_collectible = Collectible(random.randint(50, SCREEN_WIDTH - 50), SCREEN_HEIGHT - 50, collectible_type)
+        collectibles.add(new_collectible)
+        all_sprites.add(new_collectible)
+
+    # Check if bullets hit enemies
+    for bullet in bullets:
+        enemy_hit = pygame.sprite.spritecollideany(bullet, enemies)
+        if enemy_hit:
+            enemy_hit.take_damage(bullet.damage)
+            bullet.kill()
+
+    # Check if player collects items
+    for collectible in pygame.sprite.spritecollide(player, collectibles, False):
+        player.collect(collectible)
+
+    # Check if enemies collide with player
+    if pygame.sprite.spritecollideany(player, enemies):
+        player.take_damage(10)
+
+    # Check for game over
+    if player.lives <= 0:
+        display_game_over(screen)
+        running = False
+
+    # Draw background and all sprites
+    screen.blit(background_image, (0, 0))
+    for entity in all_sprites:
+        screen.blit(entity.surf, entity.rect)
+    
+    # Draw UI
+    draw_ui(player, screen)
+
+    # Update display
+    pygame.display.flip()
+
+    # Ensure the game runs at 30 frames per second
+    clock.tick(30)
+
+# Quit the game
+pygame.quit()
