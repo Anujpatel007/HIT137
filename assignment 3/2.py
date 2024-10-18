@@ -176,3 +176,23 @@ def draw_ui(player, screen):
     fill = (player.health / 100) * bar_width
     pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(10, 70, fill, 20))
     pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(10, 70, bar_width, 20), 2)
+
+# Function to handle game over and restart
+def display_game_over(screen):
+    font = pygame.font.Font(None, 74)
+    text = font.render("Game Over", True, (255, 0, 0))
+    screen.blit(text, (SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT // 2 - 50))
+    pygame.display.flip()
+    pygame.time.wait(3000)
+
+# Main game loop
+running = True
+while running:
+    # Event handling
+    for event in pygame.event.get():
+        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+            running = False
+        if event.type == KEYDOWN and event.key == K_SPACE and not game_over:
+            bullet = Projectile(player.rect.right, player.rect.centery)
+            bullets.add(bullet)
+            all_sprites.add(bullet)
