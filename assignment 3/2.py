@@ -196,3 +196,37 @@ while running:
             bullet = Projectile(player.rect.right, player.rect.centery)
             bullets.add(bullet)
             all_sprites.add(bullet)
+
+    # Update objects
+    pressed_keys = pygame.key.get_pressed()
+    player.update(pressed_keys)
+    enemies.update()
+    bullets.update()
+    collectibles.update()
+
+    # Add enemies and collectibles based on level
+    if level <= total_levels and random.random() < 0.01 * level:
+        new_enemy = Enemy()
+        enemies.add(new_enemy)
+        all_sprites.add(new_enemy)
+
+    if level <= total_levels and random.random() < 0.005:
+        collectible_type = random.choice(["health", "life"])
+        new_collectible = Collectible(random.randint(50, SCREEN_WIDTH - 50), SCREEN_HEIGHT - 50, collectible_type)
+        collectibles.add(new_collectible)
+        all_sprites.add(new_collectible)
+
+    # Check if bullets hit enemies
+    for bullet in bullets:
+        enemy_hit = pygame.sprite.spritecollideany(bullet, enemies)
+        if enemy_hit:
+            enemy_hit.take_damage(bullet.damage)
+            bullet.kill()
+
+    # Check if player collects items
+    for collectible in pygame.sprite.spritecollide(player, collectibles, False):
+        player.collect(collectible)
+
+    # Check if enemies collide with player
+    if pygame.sprite.spritecollideany(player, enemies):
+        player.take_damage(10)
