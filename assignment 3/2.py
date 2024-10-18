@@ -146,4 +146,33 @@ class Collectible(pygame.sprite.Sprite):
             self.surf = extra_life_image
         self.rect = self.surf.get_rect(center=(x, y))
         self.boost_type = boost_type
-        
+
+# Create player instance
+player = Player()
+
+# Create sprite groups
+all_sprites = pygame.sprite.Group()
+all_sprites.add(player)
+
+enemies = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+collectibles = pygame.sprite.Group()
+
+# Levels and Game Control
+level = 1
+total_levels = 3
+game_over = False
+
+# Function to draw the health and score UI
+def draw_ui(player, screen):
+    font = pygame.font.Font(None, 36)
+    lives_text = font.render(f'Lives: {player.lives}', True, (255, 255, 255))
+    score_text = font.render(f'Score: {player.score}', True, (255, 255, 255))
+    screen.blit(lives_text, (10, 10))
+    screen.blit(score_text, (10, 40))
+
+    # Health bar
+    bar_width = 200
+    fill = (player.health / 100) * bar_width
+    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(10, 70, fill, 20))
+    pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(10, 70, bar_width, 20), 2)
