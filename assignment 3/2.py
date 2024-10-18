@@ -230,3 +230,25 @@ while running:
     # Check if enemies collide with player
     if pygame.sprite.spritecollideany(player, enemies):
         player.take_damage(10)
+
+    # Check for game over
+    if player.lives <= 0:
+        display_game_over(screen)
+        running = False
+
+    # Draw background and all sprites
+    screen.blit(background_image, (0, 0))
+    for entity in all_sprites:
+        screen.blit(entity.surf, entity.rect)
+    
+    # Draw UI
+    draw_ui(player, screen)
+
+    # Update display
+    pygame.display.flip()
+
+    # Ensure the game runs at 30 frames per second
+    clock.tick(30)
+
+# Quit the game
+pygame.quit()
